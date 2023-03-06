@@ -1,0 +1,32 @@
+version: '2'
+networks:
+  bol_network:
+    driver: bridge
+
+services:
+  game:
+    container_name: c-game
+    image: bol/i-game:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - bol_network
+    restart: always
+    expose:
+      - 8081
+    ports:
+      - 8081:8081
+    depends_on:
+      - bol_mongodb
+
+  bol_mongodb:
+    image: mongo:latest
+    networks:
+      - bol_network
+    restart: always
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+
